@@ -11,7 +11,7 @@ node ("maven") {
   stage 'Build'
 
   /* Call the maven build. */
-  mvn "clean package"
+  mvn "clean package -B -V -U -e -Dsurefire.useFile=false -Dmaven.test.failure.ignore=true"
 
   /* Save Results. */
   stage 'Results'
