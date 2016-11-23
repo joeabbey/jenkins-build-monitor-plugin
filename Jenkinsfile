@@ -10,7 +10,7 @@ node ("maven") {
   }
 
   stage ('Build') {
-     mvn "clean isntall -B -V -U -e -Dsurefire.useFile=false -Dmaven.test.failure.ignore=true"
+     mvn "clean install -B -V -U -e -Dsurefire.useFile=false -Dmaven.test.failure.ignore=true"
   }
 
     /* Save Results. */
