@@ -5,22 +5,19 @@ properties([[$class: 'BuildDiscarderProperty',
                 strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
 node ("maven") {
-  stage 'Checkout'
-  checkout scm
+  stage ('Checkout') {
+    checkout scm
+  }
 
-  stage 'Build'
+  stage ('Build') {
+     mvn "clean isntall -B -V -U -e -Dsurefire.useFile=false -Dmaven.test.failure.ignore=true"
+  }
 
-  /* Call the maven build. */
-  mvn "clean package -B -V -U -e -Dsurefire.useFile=false -Dmaven.test.failure.ignore=true"
-
-  /* Save Results. */
-  stage 'Results'
-
-  /* Archive the test results */
-  step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-
-  /* Archive the build artifacts */
-  step([$class: 'ArtifactArchiver', artifacts: 'target/*.hpi,target/*.jpi'])
+    /* Save Results. */
+  stage ('Results') {
+    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
+    step([$class: 'ArtifactArchiver', artifacts: 'target/*.hpi,target/*.jpi'])
+  }
 }
 
 /* Run maven from tool "mvn" */
